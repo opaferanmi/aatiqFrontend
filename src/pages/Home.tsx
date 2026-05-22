@@ -233,8 +233,6 @@ export default function Home() {
                 </h2>
               </div>
 
-            
-
               <Link
                 to="/products"
                 className="hidden md:inline-flex items-center gap-2 font-mono test-[12px] uppercase tracking-[0.25em] text-foreground/60 hover:text-[#C6A96B] transition-colors group"
@@ -614,7 +612,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════
           MUSEUM HIGHLIGHTS — Dark grid with gold accents
           ═══════════════════════════════════════════════════════════ */}
-       {highlights && highlights.length > 0 && (
+      {highlights && highlights.length > 0 && (
         <section className="py-15 md:py-40 bg-[#F5EFE6] dark:bg-[#0F0F0F]">
           <div className="container mx-auto px-6 md:px-10">
             {/* Header */}

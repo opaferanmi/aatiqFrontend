@@ -6,22 +6,30 @@ interface Crumb {
   to?: string;
 }
 
-export default function Breadcrumbs({ items, textColor, hoverColor }: { items: Crumb[]; textColor?: string; hoverColor?: string  }) {
+export default function Breadcrumbs({
+  items,
+  textColor,
+  hoverColor,
+}: {
+  items: Crumb[];
+  textColor?: string;
+  hoverColor?: string;
+}) {
   return (
     <nav
       aria-label="Breadcrumb"
       className={cn(
         "font-mono text-[9px] md:text-[11px] uppercase tracking-widest",
-        textColor || "text-muted-foreground"
-      )} 
+        textColor || "text-muted-foreground",
+      )}
     >
       <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
         <li>
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className={cn(
               "transition-colors",
-              hoverColor ? `hover:${hoverColor}` : "hover:text-foreground"
+              hoverColor ? `hover:${hoverColor}` : "hover:text-foreground",
             )}
           >
             Home
@@ -35,7 +43,7 @@ export default function Breadcrumbs({ items, textColor, hoverColor }: { items: C
                 to={c.to}
                 className={cn(
                   "transition-colors",
-                  hoverColor ? `hover:${hoverColor}` : "hover:text-foreground"
+                  hoverColor ? `hover:${hoverColor}` : "hover:text-foreground",
                 )}
               >
                 {c.label}

@@ -13,9 +13,15 @@ const ICONS: Record<string, typeof Instagram> = {
 };
 
 const socialLinks = [
-  { icon: Instagram, url: "https://www.instagram.com/aatiqart?igsh=NTc4MTIwNjQ2YQ==" },
+  {
+    icon: Instagram,
+    url: "https://www.instagram.com/aatiqart?igsh=NTc4MTIwNjQ2YQ==",
+  },
   { icon: Facebook, url: "" },
-  { icon: SiTiktok, url: "https://www.tiktok.com/@attiqart?_r=1&_t=ZT-96NzRxIfjNF" },
+  {
+    icon: SiTiktok,
+    url: "https://www.tiktok.com/@attiqart?_r=1&_t=ZT-96NzRxIfjNF",
+  },
 ].filter((link) => link.url);
 
 export default function Footer() {
@@ -25,7 +31,7 @@ export default function Footer() {
   return (
     <footer className="mt-32 border-t border-hairline">
       <div className="container py-16 md:py-24">
-        <div className="grid grid-cols-2 md:grid-cols-12 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-10 gap-10">
           {/* Brand block */}
           <div className="col-span-2 md:col-span-5">
             <Link to="/" className="font-display text-3xl md:text-4xl">
@@ -74,11 +80,6 @@ export default function Footer() {
                   Eras
                 </Link>
               </li>
-              <li>
-                <Link to="/search" className="hover:text-gold">
-                  Search
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -99,6 +100,16 @@ export default function Footer() {
               <li>
                 <Link to="/enquiry" className="hover:text-gold">
                   Enquire
+                </Link>
+              </li>
+              <li>
+                <Link to="/consign" className="hover:text-gold">
+                  Consign
+                </Link>
+              </li>
+              <li>
+                <Link to="/buy-with-confidence" className="hover:text-gold">
+                  Buy with confidence
                 </Link>
               </li>
               <li>

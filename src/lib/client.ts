@@ -157,6 +157,43 @@ export const api = {
       return response.data;
     }),
 
+  submitConsignment: (data: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    address?: string;
+    description: string;
+    itemTitle?: string;
+    category?: string;
+    estimatedDate?: string;
+    condition?: string;
+    estimatedValue?: number;
+    images: Array<{ url: string; publicId: string }>;
+  }): Promise<{ consignmentId: string }> =>
+    http.post("/consignments", data).then((r) => {
+      const response = r.data as ApiResponse<{ consignmentId: string }>;
+      if (!response.success) {
+        throw new Error((response as any).message);
+      }
+      return (response as ApiSuccessResponse<{ consignmentId: string }>).data;
+    }),
+
+  getUploadSignature: (): Promise<{
+    signature: string;
+    timestamp: number;
+    api_key: string;
+    cloud_name: string;
+    folder?: string;
+  }> =>
+    http.post("/consignments/upload-signature").then((r) => {
+      const response = r.data as ApiResponse<any>;
+      if (!response.success) {
+        throw new Error((response as any).message);
+      }
+      return (response as ApiSuccessResponse<any>).data;
+    }),
+
   submitEnquiry: (data: EnquiryFormData): Promise<EnquiryResponse> =>
     http.post("/enquiries", data).then((r) => {
       const response = r.data as ApiResponse<EnquiryResponse>;

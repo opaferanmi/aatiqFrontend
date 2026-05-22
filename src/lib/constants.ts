@@ -84,6 +84,8 @@ export const NAV_LINKS = [
   // { label: "Collections", to: "/categories" },
 
   // { label: "Eras", to: "/age-ranges" },
+  { label: "Consign", to: "/consign" },
+  { label: "Buy With Confidence", to: "/buy-with-confidence" },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ];

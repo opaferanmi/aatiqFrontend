@@ -40,7 +40,7 @@ export default function Contact() {
 
       <div className="container py-12 md:py-16 grid lg:grid-cols-12 gap-12">
         {/* Card */}
-        <div className="lg:col-span-5 space-y-10">
+        {/* <div className="lg:col-span-5 space-y-10">
           {settings && (
             <div className="space-y-6">
               <Item icon={MapPin} label="Address">
@@ -124,7 +124,7 @@ export default function Contact() {
               </div>
             </div>
           )}
-        </div>
+        </div> */}
 
         <div className="lg:col-span-7">
           <div className="border border-hairline p-8 md:p-12 bg-card">
@@ -136,7 +136,7 @@ export default function Contact() {
           </div>
 
           {/* Map placeholder */}
-          <div className="mt-8 aspect-[16/8] bg-muted relative overflow-hidden border border-hairline">
+          {/* <div className="mt-8 aspect-[16/8] bg-muted relative overflow-hidden border border-hairline">
             <div
               className="absolute inset-0 opacity-30"
               style={{
@@ -156,7 +156,7 @@ export default function Contact() {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

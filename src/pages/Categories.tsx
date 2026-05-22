@@ -43,9 +43,8 @@ export default function Categories() {
           {/* Descriptor */}
           <div className="col-span-12 lg:col-span-4 lg:flex lg:flex-col lg:justify-end lg:pb-2">
             <p className="text-muted-foreground leading-relaxed max-w-xs">
-              Every piece in Aatiq passes through a rigorous
-              authentication process before it enters the vault. Browse by
-              discipline below.
+              Every piece in Aatiq passes through a rigorous authentication
+              process before it enters the vault. Browse by discipline below.
             </p>
           </div>
         </div>
@@ -81,7 +80,7 @@ export default function Categories() {
               className={cn(
                 "group relative grid grid-cols-12 gap-6 md:gap-10 items-stretch",
                 "border-b border-hairline py-10 md:py-14",
-                "transition-colors duration-300 hover:bg-muted/25"
+                "transition-colors duration-300 hover:bg-muted/25",
               )}
             >
               {/* Roman numeral */}

@@ -66,7 +66,7 @@ export default function ProductDetail() {
             { label: "Vault", to: "/products" },
             {
               label: product.categoryName,
-              to: `/categories/${product.slug}`,
+              to: `/categories/${product.categoryName.toLowerCase().replace(/\s+/g, "-")}`,
             },
             { label: product.title },
           ]}

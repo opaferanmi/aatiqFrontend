@@ -1,5 +1,3 @@
-
-
 # Luxury Antiques — Curated Digital Gallery
 
 A museum-grade, auction-house-caliber storefront for rare coins, vintage jewelry, and historical artifacts. Built React + Vite + TypeScript + Tailwind + Shadcn, with Zustand, TanStack Query, React Hook Form + Zod, and a typed mock data layer that exactly mirrors your documented API responses — flip one env var to go live.
@@ -21,9 +19,9 @@ A light, editorial canvas with cinematic dark moments. Not a template. Not an eC
 
 ## Pages (all 12)
 
-1. **Home** — Cinematic hero with auto-advancing slideshow + ken-burns drift, brand mark with year-established line, then five editorially-numbered acts: *I. Featured Collections* (asymmetric 5-up grid), *II. Become Part of Our Story* (split text/image with pull-quote), *III. Just Acquired* (horizontal scroll rail), *IV. Noteworthy Highlights* (4-card mosaic), *V. Visit / CTA*.
+1. **Home** — Cinematic hero with auto-advancing slideshow + ken-burns drift, brand mark with year-established line, then five editorially-numbered acts: _I. Featured Collections_ (asymmetric 5-up grid), _II. Become Part of Our Story_ (split text/image with pull-quote), _III. Just Acquired_ (horizontal scroll rail), _IV. Noteworthy Highlights_ (4-card mosaic), _V. Visit / CTA_.
 2. **Products catalog** `/products` — Editorial grid with sticky sidebar filters on desktop, full-screen drawer on mobile. Active filters as removable pill badges. Sort dropdown styled as a museum label. Skeleton placards while loading.
-3. **Product detail** `/products/[slug]` — Two-column: large gallery (main + vertical thumbnails on desktop, swipeable on mobile, click-to-zoom lightbox) and a placard column with title, archive №, price, ageRange, "Enquire" primary button, specifications as a clean definition-list table, then *Related from this Period* rail. Sticky bottom CTA on mobile.
+3. **Product detail** `/products/[slug]` — Two-column: large gallery (main + vertical thumbnails on desktop, swipeable on mobile, click-to-zoom lightbox) and a placard column with title, archive №, price, ageRange, "Enquire" primary button, specifications as a clean definition-list table, then _Related from this Period_ rail. Sticky bottom CTA on mobile.
 4. **Categories index** `/categories` — Three large editorial tiles (Antiques / Jewelry / Coins) with product counts.
 5. **Category** `/categories/[slug]` — Header with category image, subcategory chip-nav, then filtered product grid.
 6. **Subcategory** `/categories/[slug]/[subSlug]` — Same shell, deeper breadcrumbs.
@@ -33,6 +31,7 @@ A light, editorial canvas with cinematic dark moments. Not a template. Not an eC
 10. **About** `/about` — Long-form editorial with drop caps, brand story, and contact info from site settings.
 11. **Contact** `/contact` — Two columns: contact card (email, phones, address, business hours table, social) + contact form. Static map placeholder.
 12. **Terms** `/terms` and **Privacy** `/privacy` — Typographically-pleasing long-form pages from `/pages/[slug]`.
+
 - **Plus:** **Search** `/search?q=` and a custom **404** styled as a missing-artifact placard.
 
 ## Filtering & search
@@ -93,4 +92,3 @@ src/
 - Map on Contact is a styled placeholder unless you want a Mapbox/Google key wired later.
 
 Approve and I'll build the whole thing in one pass — themed, mocked, responsive, SEO-ready, deployable.
-

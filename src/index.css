@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -12,23 +12,23 @@
 @layer base {
   :root {
     /* Warm cream palette — light mode */
-    --background: 33 35% 95%;          /* #F5EFE6 warm cream */
-    --foreground: 20 16% 10%;          /* #1C1714 deep charcoal */
+    --background: 33 35% 95%; /* #F5EFE6 warm cream */
+    --foreground: 20 16% 10%; /* #1C1714 deep charcoal */
 
-    --card: 35 30% 91%;                /* #EDE5D8 slightly darker cream */
+    --card: 35 30% 91%; /* #EDE5D8 slightly darker cream */
     --card-foreground: 20 16% 10%;
 
     --popover: 33 35% 96%;
     --popover-foreground: 20 16% 10%;
 
-    --primary: 38 52% 60%;             /* #C6A96B antique gold */
+    --primary: 38 52% 60%; /* #C6A96B antique gold */
     --primary-foreground: 20 16% 5%;
 
-    --secondary: 33 28% 88%;           /* warm beige */
+    --secondary: 33 28% 88%; /* warm beige */
     --secondary-foreground: 20 16% 12%;
 
     --muted: 34 22% 90%;
-    --muted-foreground: 22 14% 42%;    /* #6B5E4A warm brown */
+    --muted-foreground: 22 14% 42%; /* #6B5E4A warm brown */
 
     --accent: 35 28% 82%;
     --accent-foreground: 20 16% 10%;
@@ -41,15 +41,16 @@
     --ring: 38 52% 60%;
 
     /* Brand tokens */
-    --gold: 38 52% 60%;                /* #C6A96B */
+    --gold: 38 52% 60%; /* #C6A96B */
     --gold-soft: 38 40% 74%;
     --bronze: 25 28% 42%;
     --hairline: 34 20% 78%;
     --cream-dark: 33 28% 88%;
 
-    --radius: 0rem;                    /* Sharp corners — no border radius */
+    --radius: 0rem; /* Sharp corners — no border radius */
 
-    --shadow-card: 0 2px 0 0 hsl(34 18% 82%), 0 20px 48px -16px hsl(20 16% 8% / 0.12);
+    --shadow-card:
+      0 2px 0 0 hsl(34 18% 82%), 0 20px 48px -16px hsl(20 16% 8% / 0.12);
     --shadow-elevated: 0 24px 64px -12px hsl(20 16% 8% / 0.18);
     --transition-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --transition-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -66,16 +67,16 @@
 
   .dark {
     /* Deep obsidian palette — dark mode */
-    --background: 20 16% 5%;           /* #0E0B09 obsidian */
-    --foreground: 33 30% 92%;          /* #F0E8DC warm white */
+    --background: 20 16% 5%; /* #0E0B09 obsidian */
+    --foreground: 33 30% 92%; /* #F0E8DC warm white */
 
-    --card: 20 14% 8%;                 /* #141110 */
+    --card: 20 14% 8%; /* #141110 */
     --card-foreground: 33 30% 92%;
 
     --popover: 20 16% 6%;
     --popover-foreground: 33 30% 92%;
 
-    --primary: 38 46% 58%;             /* warm candle gold */
+    --primary: 38 46% 58%; /* warm candle gold */
     --primary-foreground: 20 16% 5%;
 
     --secondary: 20 12% 12%;
@@ -100,7 +101,8 @@
     --hairline: 20 14% 20%;
     --cream-dark: 20 12% 12%;
 
-    --shadow-card: 0 2px 0 0 hsl(20 14% 16%), 0 20px 48px -16px hsl(0 0% 0% / 0.5);
+    --shadow-card:
+      0 2px 0 0 hsl(20 14% 16%), 0 20px 48px -16px hsl(0 0% 0% / 0.5);
     --shadow-elevated: 0 24px 64px -12px hsl(0 0% 0% / 0.7);
 
     --sidebar-background: 20 16% 5%;
@@ -129,19 +131,23 @@
 
   body {
     @apply bg-background text-foreground;
-     font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.7;
+    font-family: "Satoshi", "Inter", system-ui, sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.7;
   }
 
   /* Tighter, sharper headings */
-h1, h2, h3, h4, h5 {
-  font-family: 'Playfair Display', serif;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Playfair Display", serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
 
   ::selection {
     background: hsl(38 52% 60% / 0.25);
@@ -149,17 +155,18 @@ h1, h2, h3, h4, h5 {
   }
 
   /* Remove default input/button radius */
-  input, button, a {
+  input,
+  button,
+  a {
     border-radius: 0 !important;
   }
 }
 
 @layer components {
-
   /* ── Typography ──────────────────────────────────────── */
 
   .eyebrow {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
     font-size: 10px;
     font-weight: 400;
     text-transform: uppercase;
@@ -168,7 +175,7 @@ h1, h2, h3, h4, h5 {
   }
 
   .eyebrow-gold {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.28em;
@@ -180,7 +187,12 @@ h1, h2, h3, h4, h5 {
   .hairline {
     height: 1px;
     width: 100%;
-    background: linear-gradient(90deg, transparent, hsl(var(--gold) / 0.4), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--gold) / 0.4),
+      transparent
+    );
   }
 
   .hairline-left {
@@ -260,7 +272,7 @@ h1, h2, h3, h4, h5 {
   /* ── Drop cap ─────────────────────────────────────────── */
 
   .dropcap::first-letter {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: "Cormorant Garamond", Georgia, serif;
     font-size: 5.5rem;
     line-height: 0.85;
     float: left;
@@ -283,18 +295,31 @@ h1, h2, h3, h4, h5 {
   }
 
   @keyframes kenBurns {
-    0% { transform: scale(1.0) translate(0, 0); }
-    100% { transform: scale(1.06) translate(-1%, -0.5%); }
+    0% {
+      transform: scale(1) translate(0, 0);
+    }
+    100% {
+      transform: scale(1.06) translate(-1%, -0.5%);
+    }
   }
 
   @keyframes softPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.55; }
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.55;
+    }
   }
 
   @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   .reveal {
@@ -368,15 +393,21 @@ h1, h2, h3, h4, h5 {
    ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 640px) {
-  body { font-size: 14px; }
+  body {
+    font-size: 14px;
+  }
 }
 
 @media (min-width: 641px) and (max-width: 1024px) {
-  body { font-size: 15px; }
+  body {
+    font-size: 15px;
+  }
 }
 
 @media (min-width: 1025px) {
-  body { font-size: 16px; }
+  body {
+    font-size: 16px;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════

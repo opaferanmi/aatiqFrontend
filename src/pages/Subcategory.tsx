@@ -50,7 +50,10 @@ export default function Subcategory() {
         <Breadcrumbs
           items={[
             { label: "Collections", to: "/categories" },
-            { label: subcategory.categoryName, to: `/categories/${subcategory.categoryName.toLowerCase()}` },
+            {
+              label: subcategory.categoryName,
+              to: `/categories/${subcategory.categoryName.toLowerCase()}`,
+            },
             { label: subcategory.name },
           ]}
         />

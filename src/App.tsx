@@ -20,6 +20,8 @@ import Contact from "@/pages/Contact";
 import StaticPage from "@/pages/StaticPage";
 import Search from "@/pages/Search";
 import NotFound from "@/pages/NotFound";
+import BuyWithConfidence from "./pages/BuyWithConfidence";
+import Consign from "./pages/Consign";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,7 +44,9 @@ const router = createBrowserRouter([
       { path: "/enquiry", element: <Enquiry /> },
       { path: "/about", element: <About /> },
       { path: "/contact", element: <Contact /> },
+      {path: "/consign", element: <Consign />},
       { path: "/terms", element: <StaticPage slug="terms" eyebrow="Legal" /> },
+      { path: "/buy-with-confidence", element: <BuyWithConfidence /> },
       {
         path: "/privacy",
         element: <StaticPage slug="privacy" eyebrow="Legal" />,

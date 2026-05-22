@@ -8,7 +8,7 @@ export default function CategoryAgeGateway() {
   const navigate = useNavigate();
   const { data: categories } = useCategories();
   const { data: ageRanges } = useAgeRanges();
-  
+
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showAgeDropdown, setShowAgeDropdown] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -34,7 +34,9 @@ export default function CategoryAgeGateway() {
     navigate(`/products?${params.toString()}`);
   };
 
-  const categoryName = categories?.find((c) => c._id === selectedCategory)?.name;
+  const categoryName = categories?.find(
+    (c) => c._id === selectedCategory,
+  )?.name;
   const ageName = ageRanges?.find((a) => a._id === selectedAge)?.label;
 
   return (
@@ -50,7 +52,7 @@ export default function CategoryAgeGateway() {
             "w-full md:w-auto flex items-center justify-between md:justify-center gap-3 font-mono text-xs uppercase tracking-[0.15em]",
             "border border-[#C6A96B]/30 px-5 py-3 transition-all duration-300",
             "hover:border-[#C6A96B]/60 hover:bg-[#C6A96B]/5",
-            showCategoryDropdown && "border-[#C6A96B]/80 bg-[#C6A96B]/10"
+            showCategoryDropdown && "border-[#C6A96B]/80 bg-[#C6A96B]/10",
           )}
         >
           <span className="text-foreground/70">
@@ -59,7 +61,7 @@ export default function CategoryAgeGateway() {
           <ChevronDown
             className={cn(
               "h-3.5 w-3.5 text-[#C6A96B]/60 transition-transform duration-300",
-              showCategoryDropdown && "rotate-180"
+              showCategoryDropdown && "rotate-180",
             )}
             strokeWidth={1.5}
           />
@@ -77,7 +79,7 @@ export default function CategoryAgeGateway() {
                   "transition-colors duration-200",
                   selectedCategory === cat._id
                     ? "bg-[#C6A96B]/10 text-[#C6A96B]"
-                    : "text-foreground/70 hover:bg-[#C6A96B]/5 hover:text-[#C6A96B]"
+                    : "text-foreground/70 hover:bg-[#C6A96B]/5 hover:text-[#C6A96B]",
                 )}
               >
                 {cat.name}
@@ -98,16 +100,14 @@ export default function CategoryAgeGateway() {
             "w-full md:w-auto flex items-center justify-between md:justify-center gap-3 font-mono text-xs uppercase tracking-[0.15em]",
             "border border-[#C6A96B]/30 px-5 py-3 transition-all duration-300",
             "hover:border-[#C6A96B]/60 hover:bg-[#C6A96B]/5",
-            showAgeDropdown && "border-[#C6A96B]/80 bg-[#C6A96B]/10"
+            showAgeDropdown && "border-[#C6A96B]/80 bg-[#C6A96B]/10",
           )}
         >
-          <span className="text-foreground/70">
-            {ageName || "Select Era"}
-          </span>
+          <span className="text-foreground/70">{ageName || "Select Era"}</span>
           <ChevronDown
             className={cn(
               "h-3.5 w-3.5 text-[#C6A96B]/60 transition-transform duration-300",
-              showAgeDropdown && "rotate-180"
+              showAgeDropdown && "rotate-180",
             )}
             strokeWidth={1.5}
           />
@@ -125,7 +125,7 @@ export default function CategoryAgeGateway() {
                   "transition-colors duration-200",
                   selectedAge === era._id
                     ? "bg-[#C6A96B]/10 text-[#C6A96B]"
-                    : "text-foreground/70 hover:bg-[#C6A96B]/5 hover:text-[#C6A96B]"
+                    : "text-foreground/70 hover:bg-[#C6A96B]/5 hover:text-[#C6A96B]",
                 )}
               >
                 {era.label}
