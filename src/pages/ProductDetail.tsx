@@ -74,9 +74,9 @@ export default function ProductDetail() {
       </div>
 
       <div className="container grid lg:grid-cols-12 gap-10 lg:gap-16 pb-24">
-        {/* ═══════════════════════════════════════
+        {/* 
             GALLERY SECTION
-        ═══════════════════════════════════════ */}
+         */}
         <div className="lg:col-span-7">
           <div className="flex flex-col-reverse lg:flex-row gap-4">
             {/* Thumbnail gallery */}
@@ -131,9 +131,9 @@ export default function ProductDetail() {
           </div>
         </div>
 
-        {/* ═══════════════════════════════════════
+        {/* 
             PRODUCT INFORMATION
-        ═══════════════════════════════════════ */}
+         */}
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-28">
             {/* Archive info */}
@@ -200,9 +200,9 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════
+      {/* 
           STICKY MOBILE CTA
-      ═══════════════════════════════════════ */}
+       */}
       <div className="md:hidden fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-background/95 backdrop-blur p-3">
         <div className="container flex items-center gap-3">
           <div className="flex-1 min-w-0">
@@ -222,9 +222,9 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════
+      {/* 
           RELATED PRODUCTS
-      ═══════════════════════════════════════ */}
+       */}
       {product.relatedProductIds.length > 0 && (
         <section className="container pb-24 md:pb-32">
           <div className="hairline mb-14" />
@@ -252,9 +252,9 @@ export default function ProductDetail() {
         </section>
       )}
 
-      {/* ═══════════════════════════════════════
+      {/* 
           LIGHTBOX
-      ═══════════════════════════════════════ */}
+       */}
       {lightbox && (
         <div
           className="fixed inset-0 z-[70] bg-background/98 backdrop-blur-md flex items-center justify-center p-4"

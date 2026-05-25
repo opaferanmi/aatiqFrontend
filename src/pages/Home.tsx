@@ -45,7 +45,7 @@ export default function Home() {
   useEffect(() => {
     const id = setInterval(() => {
       setSlide((s) => (s + 1) % HERO_SLIDES.length);
-    }, 7000);
+    }, 4000);
     return () => clearInterval(id);
   }, []);
 
@@ -64,9 +64,9 @@ export default function Home() {
         description="A private gallery of Islamic antiques, rare coins, and vintage jewelry. Museum-quality pieces curated for the discerning collector."
       />
 
-      {/* ═══════════════════════════════════════════════════════════
+      {/* ════════════════════
           HERO
-          ═══════════════════════════════════════════════════════════ */}
+          ════════════════════ */}
       <section className="relative h-screen min-h-[700px] w-full overflow-hidden">
         {/* Background slides */}
         {HERO_SLIDES.map((s, i) => (
@@ -199,9 +199,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
+      {/* ════════════════════
           STATEMENT — Thin editorial strip
-          ═══════════════════════════════════════════════════════════ */}
+          ════════════════════ */}
       <div className="bg-[#966c13] py-4">
         <div className="container mx-auto px-6 md:px-10 flex items-center justify-between">
           <p className="font-mono test-[12px] uppercase tracking-[0.2em] text-[#0F0F0F]/70">
@@ -211,9 +211,9 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════
+      {/* ════════════════════
           FEATURED — Asymmetric editorial layout
-          ═══════════════════════════════════════════════════════════ */}
+          ════════════════════ */}
       {featured && featured.length > 0 && (
         <section className="py-10 md:py-40 hidden md:block">
           <div className="container mx-auto px-6 md:px-10">
@@ -519,9 +519,9 @@ export default function Home() {
         </section>
       )}
 
-      {/* ═══════════════════════════════════════════════════════════
+      {/* ════════════════════
           STORY — Dark editorial section
-          ═══════════════════════════════════════════════════════════ */}
+          ════════════════════ */}
       <section className="bg-[#0F0F0F] py-12 md:py-40 relative overflow-hidden">
         {/* Subtle texture */}
         <div
@@ -609,9 +609,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
+      {/* ════════════════════
           MUSEUM HIGHLIGHTS — Dark grid with gold accents
-          ═══════════════════════════════════════════════════════════ */}
+          ════════════════════ */}
       {highlights && highlights.length > 0 && (
         <section className="py-15 md:py-40 bg-[#F5EFE6] dark:bg-[#0F0F0F]">
           <div className="container mx-auto px-6 md:px-10">
@@ -752,9 +752,9 @@ export default function Home() {
         </section>
       )}
 
-      {/* ═══════════════════════════════════════════════════════════
+      {/* ════════════════════
           ENQUIRY CTA — Dark, centered, impactful
-          ═══════════════════════════════════════════════════════════ */}
+          ════════════════════ */}
       <section className="bg-[#0F0F0F] py-32 md:py-48 relative overflow-hidden">
         {/* Background accent */}
         <div

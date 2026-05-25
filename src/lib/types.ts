@@ -173,9 +173,9 @@ export interface SeoMeta {
   structuredData?: Record<string, unknown>;
 }
 
-// ═══════════════════════════════════════════════════════════
+// ════════════════════
 // HOME PAGE TYPES — Matches actual backend response
-// ═══════════════════════════════════════════════════════════
+// ════════════════════
 
 export interface HeroSlide {
   image: string;
@@ -253,9 +253,9 @@ export interface ProductFilters {
   search?: string;
 }
 
-// ═══════════════════════════════════════════════════════════
+// ════════════════════
 // API RESPONSE WRAPPERS
-// ═══════════════════════════════════════════════════════════
+// ════════════════════
 
 export interface ApiSuccessResponse<T> {
   success: true;

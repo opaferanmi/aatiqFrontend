@@ -14,12 +14,12 @@ export default function ProductCard({
   size = "default",
   index = 0,
 }: Props) {
-  const ratio =
-    size === "large"
-      ? "aspect-[4/5]"
-      : size === "small"
-        ? "aspect-square"
-        : "aspect-[4/5]";
+ const ratio =
+  size === "large"
+    ? "aspect-[4/5]"
+    : size === "small"
+      ? "aspect-square"
+      : "aspect-[3/4]";
 
   return (
     <Link
@@ -37,7 +37,7 @@ export default function ProductCard({
         )}
       >
         {/* Image with proper containment + padding */}
-        <div className="absolute inset-0 flex items-center justify-center p-6">
+        <div className="absolute inset-0 flex items-center justify-center p-4">
           <img
             src={product.images[0]?.url}
             alt={product.title}

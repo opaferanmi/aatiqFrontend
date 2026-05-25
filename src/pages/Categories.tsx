@@ -22,9 +22,9 @@ export default function Categories() {
         description="Three disciplines — Antiques, Jewelry, Coins. Each piece museum-verified and curated."
       />
 
-      {/* ═══════════════════════════════════════
+      {/* 
           PAGE HEADER
-      ═══════════════════════════════════════ */}
+       */}
       <section className="container pt-28 md:pt-40 pb-0">
         <Breadcrumbs items={[{ label: "Collections" }]} />
 
@@ -53,9 +53,9 @@ export default function Categories() {
         <div className="hairline mt-12 md:mt-16" />
       </section>
 
-      {/* ═══════════════════════════════════════
+      {/* 
           CATEGORY GRID — EDITORIAL ROWS
-      ═══════════════════════════════════════ */}
+       */}
       <section className="container">
         {/* Loading state */}
         {isLoading && (
@@ -152,9 +152,9 @@ export default function Categories() {
         })}
       </section>
 
-      {/* ═══════════════════════════════════════
+      {/* 
           FOOTER DECORATIVE STRIP
-      ═══════════════════════════════════════ */}
+       */}
       <section className="container py-20 md:py-28">
         <div className="flex items-center gap-6">
           <div className="hairline flex-1 hairline-left" />

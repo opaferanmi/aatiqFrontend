@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/client";
 import { QUERY_KEYS, STALE } from "@/lib/constants";
 import type { ProductFilters } from "@/lib/types";
@@ -90,4 +90,18 @@ export const useHome = () =>
     queryKey: ["home"],
     queryFn: api.getHome,
     staleTime: STALE.short,
+  });
+
+export const useInfiniteProducts = (filters: Omit<ProductFilters, "page">) =>
+  useInfiniteQuery({
+    queryKey: [QUERY_KEYS.products, "infinite", filters],
+    queryFn: ({ pageParam = 1 }) =>
+      api.getProducts({ ...filters, page: pageParam as number }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const { page, totalPages } = lastPage.pagination;
+      return page < totalPages ? page + 1 : undefined;
+    },
+    staleTime: STALE.short,
+    gcTime: STALE.medium,
   });

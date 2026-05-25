@@ -1,22 +1,34 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useCategory, useProducts } from "@/hooks/useApi";
+import { useCategory } from "@/hooks/useApi";
+import { useInfiniteProducts } from "@/hooks/useApi";
 import { useFilterStore } from "@/store/filterStore";
 import ProductCard from "@/components/products/ProductCard";
 import { ProductGridSkeleton } from "@/components/products/ProductSkeleton";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Seo from "@/components/seo/Seo";
-import Pagination from "@/components/products/ProductPagination";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { create } from "zustand";
 
-// Per-category hero configs — visual identity for each discipline
+// ─── Local store for grid column preference ───────────────────────────────────
+// Isolated so it doesn't pollute the global filter store
+type GridCols = 2 | 4 | 6;
+
+interface GridStore {
+  cols: GridCols;
+  setCols: (c: GridCols) => void;
+}
+
+const useCategoryGridStore = create<GridStore>((set) => ({
+  cols: 4,
+  setCols: (cols) => set({ cols }),
+}));
+
+// ─── Hero config ──────────────────────────────────────────────────────────────
 const HERO_CONFIG: Record<
   string,
-  {
-    eyebrow: string;
-    tagline: string;
-  }
+  { eyebrow: string; tagline: string }
 > = {
   antiques: {
     eyebrow: "Islamic · Mughal · Persian",
@@ -32,13 +44,119 @@ const HERO_CONFIG: Record<
   },
 };
 
+// ─── Sentinel component for infinite scroll ───────────────────────────────────
+interface SentinelProps {
+  onVisible: () => void;
+  isFetching: boolean;
+  hasNextPage: boolean;
+  totalLoaded: number;
+  total: number;
+  onLoadMore: () => void;
+}
+
+function ScrollSentinel({
+  onVisible,
+  isFetching,
+  hasNextPage,
+  totalLoaded,
+  total,
+  onLoadMore,
+}: SentinelProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && hasNextPage && !isFetching) {
+          onVisible();
+        }
+      },
+      { rootMargin: "300px" }, // trigger 300px before element is visible
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetching, onVisible]);
+
+  if (!hasNextPage && totalLoaded > 0) {
+    return (
+      <div className="mt-16 flex flex-col items-center gap-3">
+        <div className="hairline w-24" />
+        <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          {totalLoaded} of {total} pieces
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div ref={ref} className="mt-16 flex flex-col items-center gap-4">
+      {isFetching && (
+        <div className="flex items-center gap-3 text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin" strokeWidth={1.5} />
+          <span className="font-mono text-[10px] uppercase tracking-widest">
+            Loading more pieces
+          </span>
+        </div>
+      )}
+      {!isFetching && hasNextPage && (
+        <button
+          onClick={onLoadMore}
+          className="font-mono text-[11px] uppercase tracking-widest border border-foreground/40 px-6 py-3 hover:border-foreground hover:bg-foreground hover:text-background transition-all duration-300"
+        >
+          Load more pieces
+        </button>
+      )}
+    </div>
+  );
+}
+
+// ─── Grid toggle button ───────────────────────────────────────────────────────
+function GridToggle({
+  cols,
+  onChange,
+}: {
+  cols: GridCols;
+  onChange: (c: GridCols) => void;
+}) {
+  const options: { value: GridCols; label: string; title: string }[] = [
+    { value: 2, label: "⊞⊞", title: "2-column view" },
+    { value: 4, label: "⊞⊞⊞⊞", title: "4-column view" },
+    { value: 6, label: "⊞⊞⊞⊞⊞⊞", title: "6-column view" },
+  ];
+
+  return (
+    <div className="hidden lg:flex items-center border border-hairline">
+      {options.map((opt, i) => (
+        <button
+          key={opt.value}
+          onClick={() => onChange(opt.value)}
+          title={opt.title}
+          className={cn(
+            "px-3 py-2 font-mono text-[10px] uppercase tracking-widest transition-colors duration-300",
+            i < options.length - 1 && "border-r border-hairline",
+            cols === opt.value
+              ? "bg-gold/10 text-gold border-gold"
+              : "text-foreground/60 hover:text-gold",
+          )}
+        >
+          {opt.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 export default function Category() {
   const { slug } = useParams<{ slug: string }>();
   const { data, isLoading: catLoading } = useCategory(slug);
-  const { page, sort } = useFilterStore();
-  const setPage = useFilterStore((s) => s.setPage);
+  const { sort } = useFilterStore();
   const set = useFilterStore((s) => s.set);
+  const { cols, setCols } = useCategoryGridStore();
 
+  // Set category filter in store (for breadcrumbs / other pages that read it)
   useEffect(() => {
     if (data?.category._id) {
       set("categoryId", data.category._id);
@@ -47,22 +165,37 @@ export default function Category() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.category._id]);
 
-  const { data: productsData, isLoading: pLoading } = useProducts({
+  const {
+    data: infiniteData,
+    isLoading: pLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteProducts({
     categoryId: data?.category._id,
-    page,
     sort,
-    limit: 12,
+    limit: 40, // initial + per-batch
   });
+
+  // Flatten all pages into one array
+  const allProducts =
+    infiniteData?.pages.flatMap((p) => p.products) ?? [];
+  const pagination = infiniteData?.pages[infiniteData.pages.length - 1]?.pagination;
+  const total = pagination?.total ?? 0;
 
   const heroConf = HERO_CONFIG[slug ?? ""] ?? {
     eyebrow: "The Collection",
     tagline: "Pieces from another era.",
   };
 
+  const handleLoadMore = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  // ── Loading skeleton ────────────────────────────────────────────────────────
   if (catLoading || !data) {
     return (
       <div className="min-h-screen">
-        {/* Hero skeleton */}
         <div className="h-[70vh] bg-muted/30 animate-pulse" />
         <div className="container pt-16">
           <ProductGridSkeleton />
@@ -81,13 +214,10 @@ export default function Category() {
         image={category.image}
       />
 
-      {/* ═══════════════════════════════════════
-          CINEMATIC HERO — NO OVERLAYS
-          Design principle: Composition over filters.
-          Text placed strategically, image fully visible.
-      ═══════════════════════════════════════ */}
+      {/* 
+          CINEMATIC HERO
+       */}
       <section className="relative h-fit min-h-[540px] md:h-screen max-h-[900px] mt-20 md:mt-10 overflow-hidden">
-        {/* Background image — pristine, unfiltered */}
         {category.image ? (
           <img
             src={category.image}
@@ -95,13 +225,10 @@ export default function Category() {
             className="absolute inset-0 w-full h-full object-cover ken-burns"
           />
         ) : (
-          /* Fallback: textured gradient for no-image case */
           <div className="absolute inset-0 bg-gradient-to-br from-muted via-background to-muted/50" />
         )}
 
-        {/* Hero content — positioned for natural readability */}
         <div className="absolute inset-0 flex flex-col justify-end container pb-14 md:pb-20">
-          {/* Breadcrumb — subtle semi-transparent backdrop, minimal intervention */}
           <div className="mb-8 inline-flex">
             <div className="bg-black/40 backdrop-blur-sm rounded-sm px-4 py-2.5 border border-white/20">
               <Breadcrumbs
@@ -115,22 +242,16 @@ export default function Category() {
             </div>
           </div>
 
-          {/* Content block — left-aligned, max-width for breathing room */}
           <div className="mt-6 max-w-2xl">
-            {/* Eyebrow — gold, confident */}
             <p className="text-gold/95 mb-4 animate-fade-in font-mono text-[11px] uppercase tracking-widest">
               {heroConf.eyebrow}
             </p>
-
-            {/* Headline — strong, serif, no apologies */}
             <h1
               className="font-display text-[clamp(3rem,7vw,5.5rem)] text-white leading-[0.92] line-clamp-3 tracking-tight whitespace-pre-line animate-fade-in"
               style={{ animationDelay: "0.1s" }}
             >
               {heroConf.tagline}
             </h1>
-
-            {/* Description — secondary, readable */}
             <p
               className="mt-6 text-base md:text-lg text-white max-w-lg leading-relaxed animate-fade-in"
               style={{ animationDelay: "0.2s" }}
@@ -139,7 +260,6 @@ export default function Category() {
             </p>
           </div>
 
-          {/* Stats row — information, not decoration */}
           <div
             className="mt-8 flex items-center gap-6 animate-fade-in"
             style={{ animationDelay: "0.3s" }}
@@ -150,18 +270,13 @@ export default function Category() {
               </span>
               <span className="eyebrow text-white/80">Pieces</span>
             </div>
-
-            {/* Divider */}
             <div className="h-8 w-px bg-white/20" />
-
             <div className="flex flex-col">
               <span className="font-display text-2xl text-white">
                 {subcategories?.length ?? 0}
               </span>
               <span className="eyebrow text-white/80">Sub-collections</span>
             </div>
-
-            {/* Scroll cue — subtle guidance */}
             <div className="ml-auto hidden md:flex flex-col items-center gap-1.5 text-white/50">
               <span className="font-mono text-[9px] uppercase tracking-widest">
                 Scroll
@@ -175,25 +290,22 @@ export default function Category() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════
+      {/* 
           SUBCATEGORY FILTERS
-      ═══════════════════════════════════════ */}
+       */}
       {subcategories && subcategories.length > 0 && (
         <section className="container pt-12 pb-0">
           <div className="flex items-center gap-3 mb-6">
             <span className="eyebrow">Filter by sub-collection</span>
             <div className="hairline flex-1" />
           </div>
-
           <div className="flex flex-wrap gap-2">
-            {/* "All" chip */}
             <button className="font-mono text-[11px] uppercase tracking-widest border border-gold bg-gold/10 text-gold px-4 py-2.5 transition-colors hover:bg-gold/20">
               All{" "}
               <span className="opacity-60 ml-1">
                 {String(category.productCount ?? 0).padStart(2, "0")}
               </span>
             </button>
-
             {subcategories.map((s) => (
               <Link
                 key={s._id}
@@ -210,11 +322,11 @@ export default function Category() {
         </section>
       )}
 
-      {/* ═══════════════════════════════════════
+      {/* 
           PRODUCTS GRID
-      ═══════════════════════════════════════ */}
+       */}
       <section className="container py-12 md:py-16">
-        {/* Section header */}
+        {/* Section header with grid toggle */}
         <div className="flex items-end justify-between mb-10">
           <div>
             <p className="eyebrow-gold mb-1.5">{category.name}</p>
@@ -223,20 +335,24 @@ export default function Category() {
             </h2>
           </div>
 
-          {productsData && (
-            <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground hidden md:block">
-              {productsData.pagination.total ?? 0} items
-            </p>
-          )}
+          <div className="flex items-center gap-4">
+            {total > 0 && (
+              <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground hidden md:block">
+                {total} pieces
+              </p>
+            )}
+            {/* Desktop grid toggle */}
+            <GridToggle cols={cols} onChange={setCols} />
+          </div>
         </div>
 
         <div className="hairline mb-10" />
 
-        {/* Loading skeleton */}
+        {/* Loading skeleton — first load only */}
         {pLoading && <ProductGridSkeleton />}
 
         {/* Empty state */}
-        {!pLoading && productsData && productsData.products.length === 0 && (
+        {!pLoading && allProducts.length === 0 && (
           <div className="py-24 text-center">
             <p className="font-display italic text-3xl text-muted-foreground/50">
               No pieces currently in this collection.
@@ -254,26 +370,43 @@ export default function Category() {
         )}
 
         {/* Product grid */}
-        {!pLoading && productsData && productsData.products.length > 0 && (
+        {!pLoading && allProducts.length > 0 && (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
-              {productsData.products.map((p, i) => (
+            {/* Desktop: col toggle controlled, Tablet: 3 cols, Mobile: 2 cols */}
+            <div
+              className={cn(
+                "grid gap-x-5 gap-y-10",
+                // Mobile always 2 cols
+                "grid-cols-2",
+                // Tablet: 3 cols
+                "md:grid-cols-3",
+                // Desktop: driven by toggle
+                cols === 2 && "lg:grid-cols-2",
+                cols === 4 && "lg:grid-cols-4",
+                cols === 6 && "lg:grid-cols-6",
+              )}
+            >
+              {allProducts.map((p, i) => (
                 <ProductCard key={p._id} product={p} index={i} />
               ))}
             </div>
 
-            <Pagination
-              page={productsData.pagination.page}
-              totalPages={productsData.pagination.totalPages}
-              onChange={setPage}
+            {/* Infinite scroll sentinel + load more fallback */}
+            <ScrollSentinel
+              onVisible={handleLoadMore}
+              isFetching={isFetchingNextPage}
+              hasNextPage={!!hasNextPage}
+              totalLoaded={allProducts.length}
+              total={total}
+              onLoadMore={handleLoadMore}
             />
           </>
         )}
       </section>
 
-      {/* ═══════════════════════════════════════
+      {/* 
           BOTTOM CTA STRIP
-      ═══════════════════════════════════════ */}
+       */}
       <section className="border-t border-hairline">
         <div className="container py-16 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
