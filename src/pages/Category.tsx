@@ -26,10 +26,7 @@ const useCategoryGridStore = create<GridStore>((set) => ({
 }));
 
 // ─── Hero config ──────────────────────────────────────────────────────────────
-const HERO_CONFIG: Record<
-  string,
-  { eyebrow: string; tagline: string }
-> = {
+const HERO_CONFIG: Record<string, { eyebrow: string; tagline: string }> = {
   antiques: {
     eyebrow: "Islamic · Mughal · Persian",
     tagline: "Where history\nbecomes presence.",
@@ -175,12 +172,13 @@ export default function Category() {
     categoryId: data?.category._id,
     sort,
     limit: 40, // initial + per-batch
+    enabled: !!data?.category._id,
   });
 
   // Flatten all pages into one array
-  const allProducts =
-    infiniteData?.pages.flatMap((p) => p.products) ?? [];
-  const pagination = infiniteData?.pages[infiniteData.pages.length - 1]?.pagination;
+  const allProducts = infiniteData?.pages?.flatMap((p) => p.products) ?? [];
+  const pagination =
+    infiniteData?.pages[infiniteData.pages.length - 1]?.pagination;
   const total = pagination?.total ?? 0;
 
   const heroConf = HERO_CONFIG[slug ?? ""] ?? {

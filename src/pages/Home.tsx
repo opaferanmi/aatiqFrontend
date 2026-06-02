@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useFeatured, useHighlights } from "@/hooks/useApi";
 import { archiveNumber } from "@/lib/helpers";
@@ -6,34 +6,56 @@ import Seo from "@/components/seo/Seo";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import CategoryAgeGateway from "@/components/gateway/CategoryAgeGateway";
 import { cn } from "@/lib/utils";
+import {
+  heroOne,
+  heroTwo,
+  heroThree,
+  heroFour,
+  heroFive,
+  heroSix,
+  heroSeven,
+  heroEight,
+  heroNine,
+} from "@/assets";
 
-// Antique-appropriate hero slides — dark, moody, museum-grade imagery
-const HERO_SLIDES = [
+// Content templates
+const SLIDE_CONTENTS = [
   {
-    id: "1",
-    image:
-      "http://res.cloudinary.com/dtcbirvxc/image/upload/v1776990412/categories/pidg7bvb90ddyhba8mvj.webp",
     title: "Welcome to Aatiq",
     subtitle: "A curated house of antiques, jewellery, and historic coins",
     label: "Explore",
   },
   {
-    id: "2",
-    image:
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1920&q=95&auto=format&fit=crop",
     title: "Rare Jewellery",
     subtitle: "Mughal craftsmanship. Centuries of light.",
     label: "Fine Jewellery",
   },
   {
-    id: "3",
-    image:
-      "http://res.cloudinary.com/dtcbirvxc/image/upload/v1776990622/categories/iir8kf1fnnlrqiyytmod.jpg",
     title: "Numismatic Archive",
     subtitle: "Coins that outlived empires",
     label: "Historic Coins",
   },
 ];
+
+const HERO_IMAGES = [
+  heroOne,
+  heroTwo,
+  heroThree,
+  heroFour,
+  heroFive,
+  heroSix,
+  heroSeven,
+  heroEight,
+  heroNine,
+];
+
+// Antique-appropriate hero slides — dark, moody, museum-grade imagery
+// 9 slides total: content repeats 3 times, only backgrounds change
+const HERO_SLIDES = HERO_IMAGES.map((image, index) => ({
+  id: String(index + 1),
+  image,
+  ...SLIDE_CONTENTS[Math.floor(index / 3)],
+}));
 
 export default function Home() {
   const { data: featured, isLoading: featuredLoading } = useFeatured();
@@ -42,10 +64,24 @@ export default function Home() {
   const [transitioning, setTransitioning] = useState(false);
   const [mobileViewMode, setMobileViewMode] = useState<"2col" | "1col">("2col");
 
+  const randomFeatured = useMemo(() => {
+    if (!featured || featured.length === 0) return [];
+
+    // Shuffle array randomly
+    const shuffled = [...featured].sort(() => Math.random() - 0.5);
+
+    // Return first 5 (or however many you want to display)
+    return shuffled.slice(0, 8);
+  }, [featured]);
+
   useEffect(() => {
     const id = setInterval(() => {
-      setSlide((s) => (s + 1) % HERO_SLIDES.length);
-    }, 4000);
+      setTransitioning(true);
+      setTimeout(() => {
+        setSlide((s) => (s + 1) % HERO_SLIDES.length);
+        setTransitioning(false);
+      }, 300);
+    }, 4500);
     return () => clearInterval(id);
   }, []);
 
@@ -64,16 +100,21 @@ export default function Home() {
         description="A private gallery of Islamic antiques, rare coins, and vintage jewelry. Museum-quality pieces curated for the discerning collector."
       />
 
-      {/* ════════════════════
+      {/* 
           HERO
-          ════════════════════ */}
+           */}
       <section className="relative h-screen min-h-[700px] w-full overflow-hidden">
-        {/* Background slides */}
+        {/* Background slides - NOW WITH SLIDE TRANSITION */}
         {HERO_SLIDES.map((s, i) => (
           <div
             key={s.id}
-            className="absolute inset-0 transition-opacity duration-[2000ms] ease-in-out"
-            style={{ opacity: i === slide ? 1 : 0 }}
+            className="absolute inset-0 ease-in-out"
+            style={{
+              opacity: i === slide ? 1 : 0,
+              transform: i === slide ? "translateX(0)" : "translateX(100%)",
+              pointerEvents: i === slide ? "auto" : "none",
+              transition: "all 2s ease-in-out", // 3 seconds - CHANGE THIS NUMBER
+            }}
             aria-hidden={i !== slide}
           >
             <img
@@ -199,9 +240,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ════════════════════
+      {/* 
           STATEMENT — Thin editorial strip
-          ════════════════════ */}
+           */}
       <div className="bg-[#966c13] py-4">
         <div className="container mx-auto px-6 md:px-10 flex items-center justify-between">
           <p className="font-mono test-[12px] uppercase tracking-[0.2em] text-[#0F0F0F]/70">
@@ -211,10 +252,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ════════════════════
+      {/* 
           FEATURED — Asymmetric editorial layout
-          ════════════════════ */}
-      {featured && featured.length > 0 && (
+           */}
+      {randomFeatured && randomFeatured.length > 0 && (
         <section className="py-10 md:py-40 hidden md:block">
           <div className="container mx-auto px-6 md:px-10">
             {/* Header */}
@@ -254,11 +295,11 @@ export default function Home() {
             </div>
 
             {/* Asymmetric grid: 1 large left + 2 stacked right */}
-            {featured.length >= 3 ? (
+            {randomFeatured.length >= 3 ? (
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
                 {/* Large feature — col 1-7 */}
                 <Link
-                  to={`/products/${featured[0].slug}`}
+                  to={`/products/${randomFeatured[0].slug}`}
                   className="group md:col-span-7"
                   style={{
                     animation:
@@ -266,35 +307,36 @@ export default function Home() {
                   }}
                 >
                   <div className="relative aspect-[3/4] overflow-hidden bg-[#EDE5D8] mb-5 ring-1 ring-[#C6A96B]/15 group-hover:ring-[#C6A96B]/50 transition-all duration-500">
-                    {featured[0].images?.[0]?.url && (
+                    {randomFeatured[0].images?.[0]?.url && (
                       <img
-                        src={featured[0].images[0].url}
-                        alt={featured[0].title}
+                        src={randomFeatured[0].images[0].url}
+                        alt={randomFeatured[0].title}
                         className="absolute inset-0 h-full w-full object-contain p-6 transition-transform duration-700 group-hover:scale-[1.04]"
                       />
                     )}
                     <div className="absolute top-5 left-5 bg-[#0F0F0F] px-3 py-1.5">
                       <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-[#C6A96B]">
-                        {archiveNumber(featured[0].itemNumber)}
+                        {archiveNumber(randomFeatured[0].itemNumber)}
                       </p>
                     </div>
                   </div>
                   <div className="space-y-2 pl-1">
                     <p className="font-mono test-[12px] uppercase tracking-[0.25em] text-foreground/60">
-                      {featured[0].ageRangeLabel || featured[0].categoryName}
+                      {randomFeatured[0].ageRangeLabel ||
+                        randomFeatured[0].categoryName}
                     </p>
                     <h3 className="font-display text-2xl md:text-3xl leading-snug group-hover:text-[#C6A96B] transition-colors duration-300">
-                      {featured[0].title}
+                      {randomFeatured[0].title}
                     </h3>
                     <p className="font-mono text-sm text-foreground/70">
-                      {featured[0].priceDisplay}
+                      {randomFeatured[0].priceDisplay}
                     </p>
                   </div>
                 </Link>
                 {/* who knows */}
                 {/* 2 stacked — col 8-12 */}
                 <div className="md:col-span-5 flex flex-col gap-6 md:gap-8">
-                  {[featured[1], featured[2]].map(
+                  {[randomFeatured[1], randomFeatured[2]].map(
                     (product, i) =>
                       product && (
                         <Link
@@ -341,7 +383,7 @@ export default function Home() {
             ) : (
               /* Fallback: uniform 3-col grid */
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {featured.slice(0, 3).map((product, i) => (
+                {randomFeatured.slice(0, 3).map((product, i) => (
                   <Link
                     key={product._id}
                     to={`/products/${product.slug}`}
@@ -384,9 +426,9 @@ export default function Home() {
             )}
 
             {/* More featured items */}
-            {featured.length > 3 && (
+            {randomFeatured.length > 3 && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 md:mt-10 pt-8 border-t border-[#C6A96B]/15">
-                {featured.slice(3, 6).map((product, i) => (
+                {randomFeatured.slice(3, 6).map((product, i) => (
                   <Link
                     key={product._id}
                     to={`/products/${product.slug}`}
@@ -432,7 +474,7 @@ export default function Home() {
       )}
 
       {/* Mobile-only Featured Section */}
-      {featured && featured.length > 0 && (
+      {randomFeatured && randomFeatured.length > 0 && (
         <section className="md:hidden py-10">
           <div className="container mx-auto px-6 md:px-10">
             {/* Header */}
@@ -480,7 +522,7 @@ export default function Home() {
                 mobileViewMode === "1col" ? "grid-cols-1" : "grid-cols-2",
               )}
             >
-              {featured.map((product) => (
+              {randomFeatured.map((product) => (
                 <Link
                   key={product._id}
                   to={`/products/${product.slug}`}
@@ -519,9 +561,9 @@ export default function Home() {
         </section>
       )}
 
-      {/* ════════════════════
+      {/* 
           STORY — Dark editorial section
-          ════════════════════ */}
+           */}
       <section className="bg-[#0F0F0F] py-12 md:py-40 relative overflow-hidden">
         {/* Subtle texture */}
         <div
@@ -609,9 +651,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ════════════════════
+      {/* 
           MUSEUM HIGHLIGHTS — Dark grid with gold accents
-          ════════════════════ */}
+           */}
       {highlights && highlights.length > 0 && (
         <section className="py-15 md:py-40 bg-[#F5EFE6] dark:bg-[#0F0F0F]">
           <div className="container mx-auto px-6 md:px-10">
@@ -752,9 +794,9 @@ export default function Home() {
         </section>
       )}
 
-      {/* ════════════════════
+      {/* 
           ENQUIRY CTA — Dark, centered, impactful
-          ════════════════════ */}
+           */}
       <section className="bg-[#0F0F0F] py-32 md:py-48 relative overflow-hidden">
         {/* Background accent */}
         <div

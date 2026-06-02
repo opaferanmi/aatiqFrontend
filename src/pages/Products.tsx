@@ -132,6 +132,8 @@ export default function Products() {
     limit: 40,
   });
 
+  console.log("infiniteData", infiniteData);
+
   const allProducts = infiniteData?.pages.flatMap((p) => p.products) ?? [];
   const pagination =
     infiniteData?.pages[infiniteData.pages.length - 1]?.pagination;

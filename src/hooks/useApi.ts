@@ -92,16 +92,19 @@ export const useHome = () =>
     staleTime: STALE.short,
   });
 
-export const useInfiniteProducts = (filters: Omit<ProductFilters, "page">) =>
+export const useInfiniteProducts = (
+  filters: Omit<ProductFilters, "page"> & { enabled?: boolean }
+) =>
   useInfiniteQuery({
     queryKey: [QUERY_KEYS.products, "infinite", filters],
     queryFn: ({ pageParam = 1 }) =>
       api.getProducts({ ...filters, page: pageParam as number }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      const { page, totalPages } = lastPage.pagination;
-      return page < totalPages ? page + 1 : undefined;
+      const { page, totalPages } = lastPage.pagination || {};
+      return page && totalPages && page < totalPages ? page + 1 : undefined;
     },
+    enabled: filters.enabled ?? true,
     staleTime: STALE.short,
     gcTime: STALE.medium,
   });

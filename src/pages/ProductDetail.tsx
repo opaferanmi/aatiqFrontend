@@ -138,7 +138,8 @@ export default function ProductDetail() {
           <div className="lg:sticky lg:top-28">
             {/* Archive info */}
             <p className="eyebrow-gold">
-              {archiveNumber(product.itemNumber)} · {product.categoryName}
+              {archiveNumber(product.itemNumber)} ·{" "}
+              {product.categoryName || "Uncategorized"}
             </p>
 
             {/* Title */}
@@ -154,10 +155,11 @@ export default function ProductDetail() {
               {product.ageRangeId && (
                 <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                   {product.ageRangeLabel} ·{" "}
-                  {yearLabel(
-                    product.yearEstimate.startYear,
-                    product.yearEstimate.endYear,
-                  )}
+                  {product.yearEstimate &&
+                    yearLabel(
+                      product.yearEstimate.startYear,
+                      product.yearEstimate.endYear,
+                    )}
                 </p>
               )}
             </div>
@@ -165,24 +167,36 @@ export default function ProductDetail() {
             {/* Description */}
             <div
               className="mt-6 prose prose-neutral dark:prose-invert max-w-none [&_p]:text-[15px] [&_p]:leading-relaxed [&_p]:text-foreground/80"
-              dangerouslySetInnerHTML={{ __html: product.description }}
+              dangerouslySetInnerHTML={{ __html: product.description || "" }}
             />
 
             {/* Specifications */}
             <div className="mt-10">
               <p className="eyebrow mb-4">Specifications</p>
               <dl className="border-t border-hairline">
-                {Object.entries(product.specifications).map(([k, v]) => (
-                  <div
-                    key={k}
-                    className="grid grid-cols-3 gap-4 py-3 border-b border-hairline"
-                  >
-                    <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground col-span-1">
-                      {k}
-                    </dt>
-                    <dd className="text-sm col-span-2">{String(v)}</dd>
-                  </div>
-                ))}
+                {product.specifications &&
+                  Object.keys(product.specifications).length > 0 && (
+                    <div className="mt-10">
+                      <p className="eyebrow mb-4">Specifications</p>
+                      <dl className="border-t border-hairline">
+                        {Object.entries(product.specifications).map(
+                          ([k, v]) => (
+                            <div
+                              key={k}
+                              className="grid grid-cols-3 gap-4 py-3 border-b border-hairline"
+                            >
+                              <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground col-span-1">
+                                {k}
+                              </dt>
+                              <dd className="text-sm col-span-2">
+                                {String(v)}
+                              </dd>
+                            </div>
+                          ),
+                        )}
+                      </dl>
+                    </div>
+                  )}
               </dl>
             </div>
 
@@ -225,7 +239,7 @@ export default function ProductDetail() {
       {/* 
           RELATED PRODUCTS
        */}
-      {product.relatedProductIds.length > 0 && (
+      {product.relatedProductIds?.length > 0 && (
         <section className="container pb-24 md:pb-32">
           <div className="hairline mb-14" />
           <div className="flex items-end justify-between mb-10">
@@ -283,7 +297,7 @@ export default function ProductDetail() {
 
           {/* Image */}
           <img
-            src={images[active].url}
+            src={images?.[active]?.url || "/placeholder.png"}
             alt={product.title}
             className="max-h-[88vh] max-w-[88vw] object-contain"
           />
