@@ -43,7 +43,7 @@ export default function Categories() {
           {/* Descriptor */}
           <div className="col-span-12 lg:col-span-4 lg:flex lg:flex-col lg:justify-end lg:pb-2">
             <p className="text-muted-foreground leading-relaxed max-w-xs">
-              Every piece in Aatiq passes through a rigorous authentication
+              Every piece in AATIQ passes through a rigorous authentication
               process before it enters the vault. Browse by discipline below.
             </p>
           </div>
@@ -158,7 +158,7 @@ export default function Categories() {
       <section className="container py-20 md:py-28">
         <div className="flex items-center gap-6">
           <div className="hairline flex-1 hairline-left" />
-          <span className="eyebrow shrink-0">Aatiq</span>
+          <span className="eyebrow shrink-0">AATIQ</span>
           <div
             className="hairline flex-1"
             style={{

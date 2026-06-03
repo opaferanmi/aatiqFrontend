@@ -189,7 +189,7 @@ export default function Products() {
     <>
       <Seo
         title="The Vault — Catalogue"
-        description="Browse the current archive of antiques, jewelry and coins curated by Aatiq."
+        description="Browse the current archive of antiques, jewelry and coins curated by AATIQ."
       />
 
       {/* 

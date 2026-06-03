@@ -5,6 +5,7 @@ import { NAV_LINKS, COLLECTION_LINKS, APP_NAME } from "@/lib/constants";
 import { useTheme } from "@/hooks/useTheme";
 import { useUIStore } from "@/store/uiStore";
 import { cn } from "@/lib/utils";
+import { logo } from "@/assets";
 
 export default function Navbar() {
   const { theme, toggle } = useTheme();
@@ -54,7 +55,7 @@ export default function Navbar() {
         "fixed inset-x-0 top-0 z-50 transition-all duration-500",
         isTransparent
           ? "bg-transparent"
-          : "bg-[#F5EFE6] dark:bg-[#0F0F0F] border-b border-[#C6A96B]/20",
+          : "bg-[#ffffff] dark:bg-[#0F0F0F] border-b border-[#C6A96B]/20",
       )}
     >
       <div className="container flex h-16 md:h-20 items-center justify-between px-4 md:px-6">
@@ -88,7 +89,7 @@ export default function Navbar() {
             )}
           >
             <img
-              src="/assets/logo.png"
+              src={logo}
               alt="Logo"
               className="h-[50px] md:h-[60px] w-auto"
             />

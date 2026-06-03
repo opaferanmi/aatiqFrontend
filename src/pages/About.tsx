@@ -11,7 +11,7 @@ export default function About() {
     <>
       <Seo
         title="About"
-        description="Aatiq is a private dealer in museum-quality antiques, coins and vintage jewelry."
+        description="AATIQ is a private dealer in museum-quality antiques, coins and vintage jewelry."
       />
 
       {/* Master Editorial Grid Layout */}

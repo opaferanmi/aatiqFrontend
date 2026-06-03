@@ -21,7 +21,7 @@ import {
 // Content templates
 const SLIDE_CONTENTS = [
   {
-    title: "Welcome to Aatiq",
+    title: "Welcome to AATIQ",
     subtitle: "A curated house of antiques, jewellery, and historic coins",
     label: "Explore",
   },

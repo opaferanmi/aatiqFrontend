@@ -12,7 +12,7 @@
 @layer base {
   :root {
     /* Warm cream palette — light mode */
-    --background: 33 35% 95%; /* #F5EFE6 warm cream */
+    --background: #ffffff; /* #F5EFE6 warm cream */
     --foreground: 20 16% 10%; /* #1C1714 deep charcoal */
 
     --card: 35 30% 91%; /* #EDE5D8 slightly darker cream */

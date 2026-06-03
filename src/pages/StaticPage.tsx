@@ -13,7 +13,7 @@ export default function StaticPage({
 
   return (
     <>
-      <Seo title={data?.title ?? eyebrow} description={`${eyebrow} — Aatiq.`} />
+      <Seo title={data?.title ?? eyebrow} description={`${eyebrow} — AATIQ.`} />
 
       <div className="container pt-28 md:pt-36">
         <Breadcrumbs items={[{ label: data?.title ?? eyebrow }]} />

@@ -1,4 +1,4 @@
-export const APP_NAME = "Aatiq";
+export const APP_NAME = "AATIQ";
 export const APP_TAGLINE = "The Ivory Vault";
 export const APP_ESTABLISHED = "";
 export const APP_DESCRIPTION =

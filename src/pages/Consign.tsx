@@ -220,7 +220,7 @@ export default function Consign() {
       <>
         <Seo
           title="Consign"
-          description="Submit items for consignment to Aatiq"
+          description="Submit items for consignment to AATIQ"
         />
         <div className="container pt-28 md:pt-36">
           <Breadcrumbs items={[{ label: "Consign" }]} />
@@ -233,7 +233,7 @@ export default function Consign() {
           <h1 className="font-display text-4xl md:text-5xl mb-4">Thank you</h1>
           <p className="eyebrow-gold mb-6">Your submission has been received</p>
           <p className="text-lg text-foreground/70 max-w-xl mx-auto mb-10 leading-relaxed">
-            We appreciate you thinking of Aatiq. Our team will review your
+            We appreciate you thinking of AATIQ. Our team will review your
             consignment carefully and be in touch within 3–5 business days.
           </p>
           <button
@@ -254,7 +254,7 @@ export default function Consign() {
     <>
       <Seo
         title="Consign"
-        description="Submit items for consignment to Aatiq gallery"
+        description="Submit items for consignment to AATIQ gallery"
       />
 
       <div className="container pt-28 md:pt-36">
@@ -262,7 +262,7 @@ export default function Consign() {
         <div className="mt-6 max-w-4xl">
           <p className="eyebrow-gold mb-3">Private Consignments</p>
           <h1 className="font-display text-5xl md:text-7xl leading-[0.92]">
-            Consign with Aatiq
+            Consign with AATIQ
           </h1>
         </div>
         <div className="hairline mt-12" />

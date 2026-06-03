@@ -13,3 +13,6 @@ export { default as heroNine } from './9.png';
 export { default as heroTen } from './01.webp';
 export { default as heroEleven } from './02.jpg';
 export { default as heroTwelve } from './03.jpg';
+
+
+export {default as logo} from './logo.png';
