@@ -16,6 +16,8 @@ import {
   heroSeven,
   heroEight,
   heroNine,
+  hero14,
+  hero13,
 } from "@/assets";
 
 // Content templates
@@ -35,6 +37,11 @@ const SLIDE_CONTENTS = [
     subtitle: "Coins that outlived empires",
     label: "Historic Coins",
   },
+  {
+    title: "Antique Treasures",
+    subtitle: "Artefacts that carry the weight of history",
+    label: "View Collection",
+  },
 ];
 
 const HERO_IMAGES = [
@@ -47,6 +54,8 @@ const HERO_IMAGES = [
   heroSeven,
   heroEight,
   heroNine,
+  hero14,
+  hero13,
 ];
 
 // Antique-appropriate hero slides — dark, moody, museum-grade imagery
